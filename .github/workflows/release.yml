@@ -49,6 +49,7 @@ jobs:
           RELEASE_BRANCHES: main
           WITH_V: true
 
+      - run: echo "${{ steps.bump_version.outputs }}"
       - run: echo "tag=ghcr.io/oslokommune/log-output-generator" >> $GITHUB_ENV
         id: tag_store
       - run: echo "image_uri=${{ env.tag }}:${{ steps.bump_version.outputs.new_tag }}" >> $GITHUB_ENV
