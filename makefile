@@ -3,22 +3,24 @@ GOCACHE := $(shell go env GOCACHE)
 GOBIN   ?= $(GOPATH)/bin
 
 RICHGO := $(GOBIN)/richgo
-GOLANGCILINT   := $(GOBIN)/golangci-lint
 GOFUMPT := $(GOBIN)/gofumpt
-
-$(RICHGO):
-	$(GO) install github.com/kyoh86/richgo@v0.3.6
-
-$(GOLANGCILINT):
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/b90551cdf9c6214075f2a40d1b5595c6b41ffff0/install.sh | sh -s -- -b ${GOBIN} v1.43.0
-
-$(GOFUMPT):
-	$(GO) install mvdan.cc/gofumpt@v0.1.1
+GOLANGCILINT   := $(GOBIN)/golangci-lint
 
 GO := $(shell command -v go 2> /dev/null)
 ifndef GO
 $(error go is required, please install)
 endif
+
+$(RICHGO):
+	$(GO) install github.com/kyoh86/richgo@v0.3.6
+
+$(GOFUMPT):
+	$(GO) install mvdan.cc/gofumpt@v0.1.1
+
+$(GOLANGCILINT):
+	# To bump, simply change the version at the end to the desired version. The git sha here points to the newest commit
+	# of the install script verified by our team located here: https://github.com/golangci/golangci-lint/blob/master/install.sh
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/b90551cdf9c6214075f2a40d1b5595c6b41ffff0/install.sh | sh -s -- -b ${GOBIN} v1.43.0
 
 PKGS  = $(or $(PKG),$(shell env GO111MODULE=on $(GO) list ./...))
 FILES = $(shell find . -name '.?*' -prune -o -name vendor -prune -o -name '*.go' -print)
