@@ -1,0 +1,68 @@
+run:
+  timeout: 10m
+
+linters:
+  disable-all: true
+  enable:
+    - bodyclose
+    - deadcode
+    - depguard
+    - dogsled
+    - dupl
+    - errcheck
+    - funlen
+    - gochecknoinits
+    - goconst
+    - gocritic
+    - gocyclo
+    - gofumpt
+    - gofmt
+    - goimports
+    - revive
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - lll
+    - misspell
+    - nakedret
+    - exportloopref
+    - staticcheck
+    - structcheck
+    - stylecheck
+    - unconvert
+    - unparam
+    - unused
+    - varcheck
+    - whitespace
+    - gochecknoglobals
+    - gocognit
+    - godox
+    - gomnd
+    - gomodguard
+    - goprintffuncname
+    - prealloc
+    - rowserrcheck
+    - wsl
+
+issues:
+  exclude-use-default: false
+  exclude:
+    # should have a package comment, unless it's in another file for this package (golint)
+    - 'in another file for this package'
+    - 'undeclared name: `goldie`'
+    - '"github.com/sebdah/goldie/v2" imported but not used'
+
+linters-settings:
+  dupl:
+    threshold: 400
+  lll:
+    line-length: 170
+  gocyclo:
+    min-complexity: 15
+  golint:
+    min-confidence: 0
+  gomnd:
+    settings:
+      mnd:
+        ignored-numbers: 0o700,0o744,0o755,0o644,0o640
