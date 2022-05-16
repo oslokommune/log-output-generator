@@ -10,9 +10,7 @@ $(RICHGO):
 	$(GO) install github.com/kyoh86/richgo@v0.3.6
 
 $(GOLANGCILINT):
-	# To bump, simply change the version at the end to the desired version. The git sha here points to the newest       commit
-	# of the install script verified by our team located here: https://github.com/golangci/golangci-lint/blob/mast      er/install.sh
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/b90551cdf9c6214075f2a40d1b5595c6b41ffff0/i      nstall.sh | sh -s -- -b ${GOBIN} v1.43.0
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/b90551cdf9c6214075f2a40d1b5595c6b41ffff0/install.sh | sh -s -- -b ${GOBIN} v1.43.0
 
 $(GOFUMPT):
 	$(GO) install mvdan.cc/gofumpt@v0.1.1
