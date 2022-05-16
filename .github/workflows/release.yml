@@ -37,9 +37,6 @@ jobs:
         run: |
           go get -v -t -d ./...
 
-      - name: Run tests
-        run: make check
-
       - name: Run test build
         run: go build -a -installsuffix cgo -o service .
 
