@@ -4,7 +4,6 @@ GOBIN   ?= $(GOPATH)/bin
 
 RICHGO := $(GOBIN)/richgo
 GOFUMPT := $(GOBIN)/gofumpt
-GOLANGCILINT   := $(GOBIN)/golangci-lint
 
 GO := $(shell command -v go 2> /dev/null)
 ifndef GO
@@ -16,11 +15,6 @@ $(RICHGO):
 
 $(GOFUMPT):
 	$(GO) install mvdan.cc/gofumpt@v0.1.1
-
-$(GOLANGCILINT):
-	# To bump, simply change the version at the end to the desired version. The git sha here points to the newest commit
-	# of the install script verified by our team located here: https://github.com/golangci/golangci-lint/blob/master/install.sh
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/b90551cdf9c6214075f2a40d1b5595c6b41ffff0/install.sh | sh -s -- -b ${GOBIN} v1.43.0
 
 PKGS  = $(or $(PKG),$(shell env GO111MODULE=on $(GO) list ./...))
 FILES = $(shell find . -name '.?*' -prune -o -name vendor -prune -o -name '*.go' -print)
@@ -38,7 +32,4 @@ test: $(RICHGO)
 	$(GO) test -timeout $(TIMEOUT) $(ARGS) $(TESTPKGS) | tee >(RICHGO_FORCE_COLOR=1 $(RICHGO) testfilter); \
 		test $${PIPESTATUS[0]} -eq 0
 
-lint: $(GOLANGCILINT)
-	$(GOLANGCILINT) run
-
-check: fmt lint test
+check: fmt test
