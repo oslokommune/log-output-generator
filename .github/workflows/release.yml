@@ -53,9 +53,18 @@ jobs:
         id: tag_store
       - run: echo "version=$(git describe --tags `git rev-list --tags --max-count=1`)" >> $GITHUB_ENV
         id: version_store
+      - run: echo "image_uri=${{ env.tag }}:${{ env.version }}" >> $GITHUB_ENV
+        id: uri_store
 
-      - name: Build and push
-        uses: docker/build-push-action@v3
+      - name: Build the Docker image
+        run: docker build --tag ${{ image_uri }} .
+
+      - name: Login to GitHub Packages Docker Registry
+        uses: docker/login-action@v1
         with:
-          push: true
-          tags: ${{ env.tag }}:${{ env.version }}
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push Docker image
+        run: docker push ${{ env.image_uri }}
