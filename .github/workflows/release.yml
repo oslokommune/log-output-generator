@@ -57,7 +57,7 @@ jobs:
         id: uri_store
 
       - name: Build the Docker image
-        run: docker build --tag ${{ image_uri }} .
+        run: docker build --tag ${{ env.image_uri }} .
 
       - name: Login to GitHub Packages Docker Registry
         uses: docker/login-action@v1
