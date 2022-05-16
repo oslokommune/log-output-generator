@@ -49,11 +49,10 @@ jobs:
           RELEASE_BRANCHES: main
           WITH_V: true
 
-      - run: echo "${{ steps.bump_version.outputs }}"
-      - run: echo "tag=ghcr.io/oslokommune/log-output-generator" >> $GITHUB_ENV
-        id: tag_store
-      - run: echo "image_uri=${{ env.tag }}:${{ steps.bump_version.outputs.new_tag }}" >> $GITHUB_ENV
-        id: uri_store
+      - run: echo "image_registry=ghcr.io/oslokommune" >> $GITHUB_ENV
+      - run: echo "image_name=log-output-generator" >> $GITHUB_ENV
+      - run: echo "image_version=$(git tag | sort -V | tail -1)" >> $GITHUB_ENV
+      - run: echo "image_uri=${{ env.image_registry }}/${{ env.image_name}}:${{ env.image_version}}" >> $GITHUB_ENV
 
       - name: Build the Docker image
         run: docker build --tag ${{ env.image_uri }} .
